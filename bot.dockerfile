@@ -28,7 +28,7 @@ RUN /venv/bin/pip install -r requirements.txt
 FROM builder as production-builder
 
 # Copy in the source code tree
-COPY pyproject.toml ./
+COPY pyproject.toml LICENSE ./
 COPY electora_bot ./electora_bot/
 
 # Build a wheel and install it into the virtual env
