@@ -1,0 +1,25 @@
+# Docker Override for a production environment
+# Copy this file to the target system and rename it to:
+# docker-compose.override.yml
+version: '3'
+services:
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce
+    ports:
+      - 9000:9000
+      - 8000:8000
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer:/data
+  watchtower:
+    image: containrrr/watchtower
+    command: --interval 3600
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /root/.docker/config.json:/config.json
+    environment:
+      - WATCHTOWER_CLEANUP=true
+volumes:
+  portainer:

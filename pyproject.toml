@@ -1,0 +1,16 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "electora_bot"
+authors = [{name = "Owen Campbell", email = "owen.campbell@empiria.co.uk"}]
+license = {file = "LICENSE"}
+classifiers = ["License :: OSI Approved :: MIT License"]
+dynamic = ["version", "description"]
+dependencies = [
+    "discord.py >=2.3.0,<3.0.0",
+]
+
+[project.urls]
+Home = "https://electora.eu"

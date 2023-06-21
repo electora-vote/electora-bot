@@ -1,0 +1,4 @@
+# Copy this file to .env and define the token and command prefix
+ENVIRONMENT_TYPE=development
+DISCORD_TOKEN=<your token>
+COMMAND_PREFIX=<your command prefix>

@@ -1,0 +1,12 @@
+version: '3'
+services:
+  bot:
+    image: ghcr.io/electora/bot:latest
+    logging:
+       options:
+         max-size: "50M"
+         max-file: "5"
+    command: bash -c "/venv/bin/python -m electora_bot"
+    environment:
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - COMMAND_PREFIX=${COMMAND_PREFIX}
