@@ -3,7 +3,7 @@ ARG environment_type=production
 ################################################################################
 # Dependencies builder
 ################################################################################
-FROM python:3.9 AS builder
+FROM python:3.11 AS builder
 WORKDIR /app
 
 # Extra python env
@@ -11,13 +11,11 @@ ENV LANG=C.UTF-8
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
-ENV PIP_EXTRA_INDEX_URL=https://piwheels.org/simple
 
 RUN python -m venv /venv
 RUN /venv/bin/pip install --upgrade pip
 
-# wheel doesn't appear to be installed by default in the arm/v7 python image
-RUN /venv/bin/pip install wheel flit
+RUN /venv/bin/pip install flit
 
 COPY pyproject.toml requirements.txt ./
 RUN /venv/bin/pip install -r requirements.txt
@@ -38,7 +36,7 @@ RUN /venv/bin/python -m flit build \
 ################################################################################
 # Base image for dev and production
 ################################################################################
-FROM python:3.9-slim AS base
+FROM python:3.11-slim AS base
 WORKDIR /app
 
 # Extra python env
