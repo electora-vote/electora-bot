@@ -1,5 +1,6 @@
 import importlib.metadata
 import os
+import platform
 
 import discord
 from discord.ext import commands
@@ -17,5 +18,11 @@ async def ping(ctx):
 
 
 @BOT.command()
-async def version(ctx):
-    await ctx.send(f"I'm Electora Bot version {__version__}")
+async def hello(ctx):
+    description = (
+        f"I'm {BOT.user.name} and I'm here to help you with your elections.\n"
+        f"You can send me commands using the prefix '{_prefix}'.\n"
+        f"I'm running at version {__version__} on Python {platform.python_version()}."
+    )
+    embed = discord.Embed(title="Hello", description=description)
+    await ctx.send(embed=embed)
