@@ -4,9 +4,10 @@ import discord
 from discord.ext import commands
 
 from .cogs.admin import AdminCog
+from .cogs.ballot import BallotCog
 from .cogs.greeter import GreeterCog
 
-COGS = (AdminCog, GreeterCog)
+COGS = (AdminCog, BallotCog, GreeterCog)
 
 
 class ElectoraBot(commands.Bot):
@@ -24,5 +25,5 @@ class ElectoraBot(commands.Bot):
 
     async def setup_hook(self) -> None:
         for cog in COGS:
-            await (self.add_cog(cog(self)))
+            await self.add_cog(cog(self))
         await self.sync()
