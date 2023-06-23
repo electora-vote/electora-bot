@@ -23,4 +23,10 @@ class BallotCog(commands.GroupCog, name="ballot"):
 
     @app_commands.command(name="create", description="Create a new ballot")
     async def _create(self, interaction: discord.Interaction) -> None:
-        await interaction.response.send_message(view=CreateBallot())
+        description = (
+            "Clicking the button below will open the Electora app in your browser "
+            "where you can add the necessary details and register your ballot."
+        )
+        embed = discord.Embed(
+            title="Create a new Ballot on Electora", description=description)
+        await interaction.response.send_message(embed=embed, view=CreateBallot())
