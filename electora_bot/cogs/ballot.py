@@ -28,5 +28,6 @@ class BallotCog(commands.GroupCog, name="ballot"):
             "where you can add the necessary details and register your ballot."
         )
         embed = discord.Embed(
-            title="Create a new Ballot on Electora", description=description)
+            title="Create a new Ballot on Electora", description=description
+        )
         await interaction.response.send_message(embed=embed, view=CreateBallot())
