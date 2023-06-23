@@ -1,28 +1,26 @@
 import importlib.metadata
-import os
-import platform
 
 import discord
 from discord.ext import commands
 
-__version__ = importlib.metadata.version("electora_bot")
-_prefix = os.getenv("COMMAND_PREFIX")
-_intents = discord.Intents.default()
-_intents.message_content = True
-BOT = commands.Bot(command_prefix=_prefix, intents=_intents)
+from .cogs.admin import AdminCog
+from .cogs.greeter import GreeterCog
+
+COGS = (AdminCog, GreeterCog)
 
 
-@BOT.command()
-async def ping(ctx):
-    await ctx.send("pong")
+class ElectoraBot(commands.Bot):
+    def __init__(self, prefix: str, intents: discord.Intents, guild_id: int = None) -> None:
+        super().__init__(command_prefix=prefix, intents=intents)
+        self.version = importlib.metadata.version("electora_bot")
+        self.guild = discord.Object(id=guild_id) if guild_id else None
 
+    async def sync(self):
+        if self.guild:
+            self.tree.copy_global_to(self.guild)
+        await self.tree.sync()
 
-@BOT.command()
-async def hello(ctx):
-    description = (
-        f"I'm {BOT.user.name} and I'm here to help you with your elections.\n"
-        f"You can send me commands using the prefix '{_prefix}'.\n"
-        f"I'm running at version {__version__} on Python {platform.python_version()}."
-    )
-    embed = discord.Embed(title="Hello", description=description)
-    await ctx.send(embed=embed)
+    async def setup_hook(self) -> None:
+        for cog in COGS:
+            await(self.add_cog(cog(self)))
+        self.sync()

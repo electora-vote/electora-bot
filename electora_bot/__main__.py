@@ -1,6 +1,14 @@
 import os
 
-from .bot import BOT
+import discord
 
-TOKEN = os.getenv("DISCORD_TOKEN")
-BOT.run(TOKEN)
+from .bot import ElectoraBot
+
+token = os.getenv("DISCORD_TOKEN")
+guild_id = os.getenv("GUILD")
+prefix = os.getenv("COMMAND_PREFIX")
+intents = discord.Intents.default()
+intents.message_content = True
+
+bot = ElectoraBot(prefix=prefix, intents=intents, guild_id=guild_id)
+bot.run(token)
