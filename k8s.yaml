@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: electora
+  labels:
+    app: electora
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: electora
+  template:
+    metadata:
+      labels:
+        app: electora
+    spec:
+      containers:
+      - name: discord-bot
+        image: ghcr.io/electora-vote/electora-bot:latest
+        command: ["/venv/bin/python", "-m", "electora_bot"]
+        env:
+          - name: COMMAND_PREFIX
+            value: "!"
+          - name: DISCORD_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: electora-discord-bot
+                key: discord-token
